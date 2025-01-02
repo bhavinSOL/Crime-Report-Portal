@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!-- <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -8,5 +8,358 @@
 </head>
 <body>
     <p>If you are not redirected automatically, <a href="./login.html">click here</a>.</p>
+</body>
+</html> -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Crime Reporting System</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="main.css">
+  <!-- Include jsPDF library -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head> 
+<body>
+
+  <nav class="navbar">
+    <div class="nav-container">
+        <a href="#" class="logo">
+            <i class="fas fa-shield-alt"></i>
+            Crime Report Portal
+        </a>
+        <div class="mobile-menu">
+            <i class="fas fa-bars"></i>
+        </div>
+        <div class="nav-links">
+            <a href="Main.html"><i class="fas fa-home"></i> Home</a>
+            <a href="#"><i class="fas fa-hands-helping"></i> Services</a>
+            <a href="#report"><i class="fas fa-file-alt"></i> Report Crime</a>
+            <a href="#statistics"><i class="fas fa-chart-bar"></i> Statistics</a>
+            <a href="#contact"><i class="fas fa-envelope"></i> Contact</a>
+        </div>
+    </div>
+  </nav>
+
+  <div class="con" style="display: flex;flex-direction: column;justify-items: center; align-items: center; margin-top: 9rem; margin-bottom: 10px;">
+    <div class="container">
+      <h1>Crime Reporting System</h1>
+      <form id="crime-form">
+        
+        <!-- Crime Details -->
+        <h3>Crime Details</h3>
+        <label for="crime-description">Description of the Crime:</label>
+        <textarea id="crime-description" name="crime-description" required></textarea>
+
+        <label for="crime-location">Location of the Crime (Optional):    <button type="button" id="get-location-btn">Get Current Location</button></label>
+        <input type="text" id="crime-location" name="crime-location" required>
+ <!-- Display the generated link for the location -->
+ <div id="location-link-container" style="margin-top: 10px;"></div>
+
+        <label for="crime-type">Select Type of Crime:</label>
+        <select id="crime-type" name="crime-type" required>
+          <option value="" disabled selected>Select Crime</option>
+          <option value="theft">Theft</option>
+          <option value="burglary">Burglary</option>
+          <option value="assault">Assault</option>
+          <option value="fraud">Fraud</option>
+          <option value="vandalism">Vandalism</option>
+          <option value="other">Other</option>
+        </select>
+        
+        <label for="evidence-upload">Upload Evidence (Images):</label>
+        <input type="file" id="evidence-upload" name="evidence-upload" accept="image/*">
+
+        <label for="video-upload">Record a Video:</label>
+        <video id="video-preview" autoplay muted></video>
+       <div class="btncen">
+        <button type="button" id="start-recording">Start Recording</button>
+        <button type="button" id="stop-recording">Stop Recording</button>
+       </div>
+        <a id="download-video" style="display: none;">Download Video</a>
+
+
+        <!-- Button to capture current location -->
+        
+        
+       
+
+        <button type="submit">Submit Report</button>
+      </form>
+
+      <!-- Placeholder for the download link -->
+      <div id="download-link-container"></div>
+    </div>
+  </div>
+
+  <footer>
+    <div class="footer-content">
+        <div class="footer-section">
+            <h3>Quick Links</h3>
+            <a href="./Main.html">Home</a>
+            <a href="#services">Services</a>
+            <a href="#report">Report Crime</a>
+            <a href="#contact">Contact</a>
+            <a href="./all_FIR.html">All FIR DATA</a>
+        </div>
+        <div class="footer-section">
+            <h3>Contact Us</h3>
+            <p><i class="fas fa-phone"></i> Emergency: 911</p>
+            <p><i class="fas fa-envelope"></i> info@crimereport.gov</p>
+            <p><i class="fas fa-map-marker-alt"></i> Police HQ, City Center</p>
+        </div>
+        <div class="footer-section">
+            <h3>Follow Us</h3>
+            <div class="social-links">
+                <a href="#"><i class="fab fa-facebook"></i></a>
+                <a href="#"><i class="fab fa-twitter"></i></a>
+                <a href="#"><i class="fab fa-instagram"></i></a>
+            </div>
+        </div>
+    </div>
+    <div class="footer-bottom">
+        <p>&copy; 2025 Crime Reporting System. All rights reserved.</p>
+    </div>
+  </footer>
+  <script type="text/javascript"
+        src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js">
+</script>
+<script type="text/javascript">
+   (function(){
+      emailjs.init({
+        publicKey: "65GDL6rt5BlHccKhM",
+      });
+   })();
+</script>
+<script>
+        // Initialize EmailJS
+        async function sendEmail(subject, message, toName) {
+    const templateParams = {
+        to_name: toName, // Recipient name
+        from_name: "Crime Report Team", // Sender name
+        message: message, // Custom message content
+    };
+
+    try {
+        await emailjs.send("service_zqtwy0q", "template_duk10nq", templateParams);
+        alert("Email sent successfully!");
+    } catch (error) {
+        console.error("Error sending email:", error);
+        alert("Error sending email: " + error.text);
+    }
+}
+</script>
+  <!-- Firebase Scripts -->
+  <script type="module">
+    // Import Firebase SDKs
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-app.js";
+    import { getFirestore, collection, addDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-firestore.js";
+
+    // Firebase Configuration
+    const firebaseConfig = {
+      apiKey: "AIzaSyBy_BOSqZfTFPsH6Pb_pQUP5845PJScL1Y",
+      authDomain: "crimereport-6a12b.firebaseapp.com",
+      projectId: "crimereport-6a12b",
+      storageBucket: "crimereport-6a12b.appspot.com",
+      messagingSenderId: "666218285177",
+      appId: "1:666218285177:web:2289a5408ecb5d59e9eca8",
+      measurementId: "G-31PKZWXBBT"
+    };
+
+    // Initialize Firebase
+    const app = initializeApp(firebaseConfig);
+    const db = getFirestore(app);
+    var location_of_crime=``;
+    var alert_data={};
+    // Function to get current location and generate a link
+    document.getElementById("get-location-btn").addEventListener("click", function() {
+      if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(function(position) {
+          const latitude = position.coords.latitude;
+          const longitude = position.coords.longitude;
+
+          // Display the generated link
+          const locationUrl = `https://www.google.com/maps?q=${latitude},${longitude}`;
+          location_of_crime=locationUrl
+          document.getElementById("location-link-container").innerHTML = `<a href="${locationUrl}" target="_blank">Click here to view the location on Google Maps</a>`;
+
+          // Optionally, you can also fill this in an input field if you want to capture this as part of the form
+          document.getElementById("crime-location").value = `Lat: ${latitude}, Lon: ${longitude}`;
+        }, function(error) {
+          console.error("Error getting location: ", error);
+          alert("Failed to retrieve location.");
+        });
+      } else {
+        alert("Geolocation is not supported by this browser.");
+      }
+    });
+
+    // Form Submission Handler
+    document.getElementById('crime-form').addEventListener('submit', async (e) => {
+      e.preventDefault();
+
+      // Collect form data
+      const crimeDescription = document.getElementById('crime-description').value;
+      const crimeLocation = document.getElementById('crime-location').value;
+      const evidenceFiles = document.getElementById('evidence-upload').files;
+      const crimetype = document.getElementById('crime-type').value;
+
+      // Evidence URLs
+      const evidenceUrls = [];
+      for (let i = 0; i < evidenceFiles.length; i++) {
+        const file = evidenceFiles[i];
+        const fileUrl = await uploadFile(file); // Function to handle file upload (to Firebase or server)
+        evidenceUrls.push(fileUrl);
+      }
+
+      // Crime Report Data Object
+      const crimeReportData = {
+        crime_description: crimeDescription,
+        crime_location: crimeLocation,
+        crimeLocation_link: location_of_crime,
+        evidence_urls: evidenceUrls,
+        crime_type:crimetype,
+        timestamp: serverTimestamp(),
+
+      };
+      alert_data=crimeReportData
+      try {
+        await addDoc(collection(db, "fir_reports"), crimeReportData);
+        alert("Crime Report Submitted Successfully!");
+
+        // Optionally, generate PDF report
+        generatePDF(crimeReportData);
+      } catch (error) {
+        console.error("Error adding crime report: ", error);
+        alert("Error submitting crime report. Please try again.");
+      }
+    });
+
+    // Function to upload file to Firebase Storage or server
+    async function uploadFile(file) {
+      // Logic for uploading the image file and getting the file URL
+      // For Firebase, you would use Firebase Storage, or for server upload, handle it accordingly.
+      // Returning a placeholder URL for demonstration purposes:
+      return "https://example.com/placeholder-url"; // Placeholder for actual file upload URL
+    }
+
+    // Function to generate PDF (optional, if required)
+    function generatePDF(crimeReportData) {
+      const { jsPDF } = window.jspdf;
+      const doc = new jsPDF();
+
+      doc.setFontSize(16);
+      doc.text("Crime Report", 14, 20);
+      doc.setFontSize(12);
+
+      let y = 30;
+
+      doc.text(`Crime Description: ${crimeReportData.crime_description}`, 14, y);
+      y += 10;
+      doc.text(`Crime Location: ${crimeReportData.crime_location}`, 14, y);
+      y += 10;
+      doc.text(`Crime Location Link: ${crimeReportData.crimeLocation_link}   : copy this link and open it.`, 14, y);
+      y += 10;
+      doc.text(`Crime type: ${crimeReportData.crime_type}`, 14, y);
+      y += 10; 
+      doc.text(`Time of Report: ${crimeReportData.timestamp}`, 14, y);
+      y += 10;      
+      doc.text(`Evidence URLs: ${crimeReportData.evidence_urls.join(", ")}`, 14, y);
+      y += 10;
+
+      // Generate download link
+      const pdfUrl = doc.output('bloburl');
+      const link = document.createElement('a');
+      link.href = pdfUrl;
+      link.download = `Crime_Report_${Date.now()}.pdf`;
+      link.innerText = 'Download Crime Report PDF';
+      
+      document.getElementById('download-link-container').appendChild(link);
+    }
+
+
+    let mediaRecorder;
+    let recordedChunks = [];
+
+    // Start video recording
+    document.getElementById('start-recording').addEventListener('click', async () => {
+      const stream = await navigator.mediaDevices.getUserMedia({ video: true, audio: true });
+      const videoElement = document.getElementById('video-preview');
+      videoElement.srcObject = stream;
+
+      mediaRecorder = new MediaRecorder(stream);
+      mediaRecorder.ondataavailable = event => {
+        if (event.data.size > 0) recordedChunks.push(event.data);
+      };
+
+      mediaRecorder.start();
+    });
+
+    // Stop video recording
+    document.getElementById('stop-recording').addEventListener('click', () => {
+      mediaRecorder.stop();
+
+      mediaRecorder.onstop = () => {
+        const videoBlob = new Blob(recordedChunks, { type: 'video/webm' });
+        const videoUrl = URL.createObjectURL(videoBlob);
+///
+        // emailAlert("⚠alert⚠", `${videoBlob ,alert_data}`, "djbhavinparmar123@gmail.com");
+
+// Prepare the email content
+const messageContent = `
+    A new crime report has been submitted. Below are the details:
+
+Crime Description: ${alert_data.crime_description}
+Crime Type: ${alert_data.crime_type}
+Crime Location: ${alert_data.crime_location}
+Crime Location Link: ${alert_data.crimeLocation_link}
+Evidence URLs: ${alert_data.evidence_urls ? alert_data.evidence_urls.join(", ") : "No evidence uploaded"}
+video: ${videoUrl}
+`;
+sendEmail("Crime Report Notification", messageContent, "Bhavin Parmar");
+
+        const downloadLink = document.getElementById('download-video');
+        downloadLink.href = videoUrl;
+        downloadLink.download = `crime_video_${Date.now()}.webm`;
+        downloadLink.style.display = 'block';
+
+        recordedChunks = []; // Clear chunks for next recording
+      };
+    });
+
+
+//     const nodemailer = require("nodemailer");
+
+// async function emailAlert(subject, body, to) {
+//     try {
+//         // Create a transporter
+//         const transporter = nodemailer.createTransport({
+//             service: "gmail",
+//             auth: {
+//                 user: "bvmsolutions9913@gmail.com",
+//                 pass: "xihb qcnb pzak hsrl" // Replace with your app-specific password
+//             }
+//         });
+
+//         // Email options
+//         const mailOptions = {
+//             from: "bvmsolutions9913@gmail.com",
+//             to: to,
+//             subject: subject,
+//             text: body
+//         };
+
+//         // Send the email
+//         const info = await transporter.sendMail(mailOptions);
+//         console.log("Email sent: " + info.response);
+//     } catch (error) {
+//         console.error("Error sending email:", error);
+//     }
+// }
+
+
+  </script>
 </body>
 </html>
