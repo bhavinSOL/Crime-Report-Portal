@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login and Register</title>
+    <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-app.js" type="module"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-auth.js" type="module"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
+     <!-- Include jsPDF library -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+
+    <style>
+        body {
+    font-family: Arial, sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+    /* background: linear-gradient(120deg, #84fab0, #8fd3f4); */
+}
+
+.container {
+    background: #fff;
+    padding: 30px;
+    border-radius: 12px;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+    width: 100%;
+    max-width: 400px;
+}
+
+h2 {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+}
+
+input {
+    margin-bottom: 15px;
+    padding: 12px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    font-size: 16px;
+}
+
+button {
+    padding: 12px;
+    background: #1a237e;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+button:hover {
+    background: #101446;
+}
+
+.toggle-link {
+    text-align: center;
+    margin-top: 10px;
+    color: #007bff;
+    cursor: pointer;
+}
+
+.toggle-link:hover {
+    text-decoration: underline;
+}
+
+.error {
+    color: red;
+    font-size: 14px;
+    margin-top: -10px;
+    margin-bottom: 10px;
+}
+
+    </style>
+</head>
+<body>
+    <div class="header">
+        <i class="fas fa-shield-alt"></i>
+        <h1>Welcome to Crime Report Portal</h1>
+    </div>
+    <div class="container">
+        <h2 id="form-title">Login</h2>
+        <form id="auth-form">
+            <input type="email" id="email" placeholder="Email" required aria-label="Email">
+            <input type="password" id="password" placeholder="Password" required aria-label="Password">
+            <button type="submit" id="submit-btn">Login</button>
+            <p class="error" id="error-message"></p>
+        </form>
+        <div class="toggle-link" id="toggle-link">Don't have an account? Register here</div>
+    </div>
+    
+    <!-- <script type="module">
+        // Firebase configuration
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/9.22.2/firebase-app.js";
+        import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/9.22.2/firebase-auth.js";
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyBy_BOSqZfTFPsH6Pb_pQUP5845PJScL1Y",
+            authDomain: "crimereport-6a12b.firebaseapp.com",
+            projectId: "crimereport-6a12b",
+            storageBucket: "crimereport-6a12b.appspot.com",
+            messagingSenderId: "666218285177",
+            appId: "1:666218285177:web:2289a5408ecb5d59e9eca8",
+            measurementId: "G-31PKZWXBBT"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+
+        // Toggle between Login and Register
+        const formTitle = document.getElementById('form-title');
+        const toggleLink = document.getElementById('toggle-link');
+        const submitBtn = document.getElementById('submit-btn');
+        const errorMessage = document.getElementById('error-message');
+        let isLogin = true;
+
+        toggleLink.addEventListener('click', () => {
+            isLogin = !isLogin;
+            formTitle.textContent = isLogin ? 'Login' : 'Register';
+            submitBtn.textContent = isLogin ? 'Login' : 'Register';
+            toggleLink.textContent = isLogin ? "Don't have an account? Register here" : "Already have an account? Login here";
+            errorMessage.textContent = '';
+        });
+
+        // Handle form submission
+        document.getElementById('auth-form').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const email = document.getElementById('email').value.trim();
+            const password = document.getElementById('password').value.trim();
+            errorMessage.textContent = '';
+
+            try {
+                if (isLogin) {
+                    const userCredential = await signInWithEmailAndPassword(auth, email, password);
+                    alert('Login successful');
+                    console.log('User:', userCredential.user);
+                } else {
+                    const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+                    alert('Registration successful');
+                    console.log('User:', userCredential.user);
+                }
+            } catch (error) {
+                errorMessage.textContent = error.message;
+            }
+        });
+    </script> -->
+    <script type="module">
+        // Firebase configuration
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/9.22.2/firebase-app.js";
+        import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/9.22.2/firebase-auth.js";
+    
+        const firebaseConfig = {
+            apiKey: "AIzaSyBy_BOSqZfTFPsH6Pb_pQUP5845PJScL1Y",
+            authDomain: "crimereport-6a12b.firebaseapp.com",
+            projectId: "crimereport-6a12b",
+            storageBucket: "crimereport-6a12b.appspot.com",
+            messagingSenderId: "666218285177",
+            appId: "1:666218285177:web:2289a5408ecb5d59e9eca8",
+            measurementId: "G-31PKZWXBBT"
+        };
+    
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+    
+        // Toggle between Login and Register
+        const formTitle = document.getElementById('form-title');
+        const toggleLink = document.getElementById('toggle-link');
+        const submitBtn = document.getElementById('submit-btn');
+        const errorMessage = document.getElementById('error-message');
+        let isLogin = true;
+    
+        toggleLink.addEventListener('click', () => {
+            isLogin = !isLogin;
+            formTitle.textContent = isLogin ? 'Login' : 'Register';
+            submitBtn.textContent = isLogin ? 'Login' : 'Register';
+            toggleLink.textContent = isLogin ? "Don't have an account? Register here" : "Already have an account? Login here";
+            errorMessage.textContent = '';
+        });
+    
+        // Handle form submission
+        document.getElementById('auth-form').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const email = document.getElementById('email').value.trim();
+            const password = document.getElementById('password').value.trim();
+            errorMessage.textContent = '';
+    
+            try {
+                if (isLogin) {
+                    const userCredential = await signInWithEmailAndPassword(auth, email, password);
+                    alert('Login successful');
+                    // Redirect to main page after successful login
+                    window.location.href = './main.html';
+                } else {
+                    const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+                    alert('Registration successful');
+                    console.log('User:', userCredential.user);
+                }
+            } catch (error) {
+                errorMessage.textContent = error.message;
+            }
+        });
+    </script>
+    
+
+</body>
+</html>

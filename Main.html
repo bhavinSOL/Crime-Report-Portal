@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Crime Reporting System</title>
+    <link rel="stylesheet" href="main.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <div id="main-content" style="display:none;">
+
+  
+    <!-- Navbar -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="#" class="logo">
+                <i class="fas fa-shield-alt"></i>
+                Crime Report Portal
+            </a>
+            <div class="mobile-menu">
+                <i class="fas fa-bars"></i>
+            </div>
+            <div class="nav-links">
+                <a href="#home"><i class="fas fa-home"></i> Home</a>
+                <a href="#services"><i class="fas fa-hands-helping"></i> Services</a>
+                <a href="#report"><i class="fas fa-file-alt"></i> Report Crime</a>
+                <a href="#statistics"><i class="fas fa-chart-bar"></i> Statistics</a>
+                <a href="#contact"><i class="fas fa-envelope"></i> Contact</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero" id="home">
+        <div class="hero-content">
+            <h1>Welcome to Crime Reporting System</h1>
+            <p>Report incidents quickly and securely. Help us make your community safer.</p>
+            <div class="hero-buttons">
+                <a href="./temp 2.html" class="cta-button primary">Report a Crime</a>
+                <a href="#emergency" class="cta-button secondary">Emergency Contact</a>
+            </div>
+        </div>
+        <div class="hero-overlay"></div>
+    </section>
+ 
+    
+    <!-- Statistics Section -->
+    <section class="statistics" id="statistics">
+        <h2>Crime Statistics Dashboard</h2>
+        <div class="stats-grid">
+            <div class="stat-card">
+                <i class="fas fa-check-circle"></i>
+                <h3>Cases Solved</h3>
+                <p class="stat-number">1,234</p>
+            </div>
+            <div class="stat-card">
+                <i class="fas fa-clock"></i>
+                <h3>Average Response Time</h3>
+                <p class="stat-number">15 mins</p>
+            </div>
+            <div class="stat-card">
+                <i class="fas fa-users"></i>
+                <h3>Community Members</h3>
+                <p class="stat-number">50,000+</p>
+            </div>
+            <div class="stat-card">
+                <i class="fas fa-phone-alt"></i>
+                <h3>Emergency Calls</h3>
+                <p class="stat-number">24/7</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Services Section -->
+    <section class="services" id="services">
+        <h2>Our Services</h2>
+        <div class="services-grid">
+            <div class="service-card">
+                <i class="fas fa-file-alt"></i>
+                <h3>Online FIR Filing</h3>
+                <p>File First Information Reports online from the comfort of your home.</p>
+                <a href="#" class="service-link">Learn More</a>
+            </div>
+            <div class="service-card">
+                <i class="fas fa-search"></i>
+                <h3>Case Tracking</h3>
+                <p>Track the status of your reported cases in real-time.</p>
+                <a href="#" class="service-link">Learn More</a>
+            </div>
+            <div class="service-card">
+                <i class="fas fa-phone-volume"></i>
+                <h3>Emergency Support</h3>
+                <p>24/7 emergency support and immediate response system.</p>
+                <a href="#" class="service-link">Learn More</a>
+            </div>
+            <div class="service-card">
+                <i class="fas fa-map-marked-alt"></i>
+                <h3>Crime Mapping</h3>
+                <p>View crime hotspots and safety zones in your area.</p>
+                <a href="#" class="service-link">Learn More</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Emergency Contact Section -->
+    <section class="emergency" id="emergency">
+        <div class="emergency-content">
+            <h2>Emergency Contacts</h2>
+            <div class="emergency-grid">
+                <div class="emergency-card">
+                    <i class="fas fa-ambulance"></i>
+                    <h3>Medical Emergency</h3>
+                    <p>Call: 911</p>
+                </div>
+                <div class="emergency-card">
+                    <i class="fas fa-fire-extinguisher"></i>
+                    <h3>Fire Emergency</h3>
+                    <p>Call: 101</p>
+                </div>
+                <div class="emergency-card">
+                    <i class="fas fa-police-box"></i>
+                    <h3>Police Control</h3>
+                    <p>Call: 100</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3>Quick Links</h3>
+                <a href="#home">Home</a>
+                <a href="#services">Services</a>
+                <a href="#report">Report Crime</a>
+                <a href="#contact">Contact</a>
+                <a href="./all_FIR.html">All FIR DATA</a>
+            </div>
+            <div class="footer-section">
+                <h3>Contact Us</h3>
+                <p><i class="fas fa-phone"></i> Emergency: 911</p>
+                <p><i class="fas fa-envelope"></i> info@crimereport.gov</p>
+                <p><i class="fas fa-map-marker-alt"></i> Police HQ, City Center</p>
+            </div>
+            <div class="footer-section">
+                <h3>Follow Us</h3>
+                <div class="social-links">
+                    <a href="#"><i class="fab fa-facebook"></i></a>
+                    <a href="#"><i class="fab fa-twitter"></i></a>
+                    <a href="#"><i class="fab fa-instagram"></i></a>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2025 Crime Reporting System. All rights reserved.</p>
+        </div>
+    </footer>
+</div>
+<script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/9.22.2/firebase-app.js";
+    import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/9.22.2/firebase-auth.js";
+
+    const firebaseConfig = {
+        apiKey: "AIzaSyBy_BOSqZfTFPsH6Pb_pQUP5845PJScL1Y",
+        authDomain: "crimereport-6a12b.firebaseapp.com",
+        projectId: "crimereport-6a12b",
+        storageBucket: "crimereport-6a12b.appspot.com",
+        messagingSenderId: "666218285177",
+        appId: "1:666218285177:web:2289a5408ecb5d59e9eca8",
+        measurementId: "G-31PKZWXBBT"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+
+    // Check if user is logged in
+    onAuthStateChanged(auth, (user) => {
+        if (!user) {
+            // If not logged in, redirect to login page
+            window.location.href = './Login.html';
+        } else {
+            // If logged in, display the main content
+            document.getElementById('main-content').style.display = 'block';
+        }
+    });
+</script>
+    <script>
+        // Mobile menu toggle
+        document.querySelector('.mobile-menu').addEventListener('click', function() {
+            document.querySelector('.nav-links').classList.toggle('active');
+        });
+
+        // Smooth scrolling
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                document.querySelector(this.getAttribute('href')).scrollIntoView({
+                    behavior: 'smooth'
+                });
+            });
+        });
+
+
+        
+    </script>
+</body>
+</html>

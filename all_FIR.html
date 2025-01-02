@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>All FIR Reports</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 20px;
+    }
+    h1 {
+      text-align: center;
+    }
+    .report {
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      padding: 10px;
+      margin: 10px 0;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+    .report img {
+      max-width: 100%;
+      height: auto;
+    }
+    .report h3 {
+      margin-top: 0;
+    }
+  </style>
+</head>
+<body>
+  <h1>All FIR Reports</h1>
+  <div id="reports-container"></div>
+
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-app.js";
+    import { getFirestore, collection, getDocs } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-firestore.js";
+
+    // Firebase Configuration
+    const firebaseConfig = {
+      apiKey: "AIzaSyBy_BOSqZfTFPsH6Pb_pQUP5845PJScL1Y",
+      authDomain: "crimereport-6a12b.firebaseapp.com",
+      projectId: "crimereport-6a12b",
+      storageBucket: "crimereport-6a12b.appspot.com",
+      messagingSenderId: "666218285177",
+      appId: "1:666218285177:web:2289a5408ecb5d59e9eca8",
+      measurementId: "G-31PKZWXBBT"
+    };
+
+    // Initialize Firebase
+    const app = initializeApp(firebaseConfig);
+    const db = getFirestore(app);
+
+    // Fetch FIR Reports
+    async function fetchReports() {
+      const reportsContainer = document.getElementById("reports-container");
+      reportsContainer.innerHTML = "Loading reports...";
+
+      try {
+        const reportsRef = collection(db, "fir_reports");
+        const querySnapshot = await getDocs(reportsRef);
+
+        if (querySnapshot.empty) {
+          reportsContainer.innerHTML = "<p>No reports found.</p>";
+          return;
+        }
+
+        reportsContainer.innerHTML = ""; // Clear loading message
+        querySnapshot.forEach((doc) => {
+          const data = doc.data();
+          const reportDiv = document.createElement("div");
+          reportDiv.classList.add("report");
+
+          reportDiv.innerHTML = `
+            <h3>Complainant: ${data.complainant_name}</h3>
+            <p><strong>Father's/Husband's Name:</strong> ${data.father_husband_name}</p>
+            <p><strong>Address:</strong> ${data.complainant_address}</p>
+            <p><strong>Contact Number:</strong> ${data.contact_number}</p>
+            
+            <h4>Police Station Details</h4>
+            <p><strong>Police Station:</strong> ${data.police_station}</p>
+            <p><strong>District:</strong> ${data.district}</p>
+
+            <h4>Date & Time of Occurrence</h4>
+            <p><strong>Date:</strong> ${data.occurrence_date}</p>
+            <p><strong>Time:</strong> ${data.occurrence_time}</p>
+
+            <h4>Place of Occurrence</h4>
+            <p><strong>Location:</strong> ${data.place_of_occurrence}</p>
+            <p><strong>Distance from Police Station:</strong> ${data.distance_direction}</p>
+
+            <h4>Nature of Offense</h4>
+            <p><strong>Description:</strong> ${data.offense_description}</p>
+            <p><strong>IPC Sections:</strong> ${data.ipc_sections}</p>
+
+            <h4>Accused Details</h4>
+            <p><strong>Name:</strong> ${data.accused_name || "N/A"}</p>
+            <p><strong>Address:</strong> ${data.accused_address || "N/A"}</p>
+            <p><strong>Description:</strong> ${data.accused_description || "N/A"}</p>
+
+            <h4>Witness Details</h4>
+            <p><strong>Witness Names:</strong> ${data.witness_names || "N/A"}</p>
+            <p><strong>Witness Addresses:</strong> ${data.witness_addresses || "N/A"}</p>
+
+            <h4>Incident Description</h4>
+            <p>${data.incident_description}</p>
+
+            <h4>Items Lost or Damaged</h4>
+            <p>${data.items_lost_damaged || "N/A"}</p>
+
+            <h4>Complainant's Statement</h4>
+            <p>${data.complainant_statement}</p>
+
+            <h4>Signature & Thumb Impression</h4>
+            <p><strong>Signature:</strong> ${data.signature}</p>
+            <p><strong>Thumb Impression:</strong> ${data.thumb_impression || "Not Provided"}</p>
+
+            ${data.image_urls?.length
+              ? `<h4>Images:</h4>${data.image_urls.map((url) => `<img src="${url}" alt="Crime Image">`).join("")}`
+              : ""}
+          `;
+
+          reportsContainer.appendChild(reportDiv);
+        });
+      } catch (error) {
+        console.error("Error fetching reports: ", error);
+        reportsContainer.innerHTML = "<p>Error loading reports. Check the console for details.</p>";
+      }
+    }
+
+    // Fetch reports on page load
+    fetchReports();
+  </script>
+</body>
+</html>
